@@ -11,6 +11,8 @@ class Editor {
 		this.saturation = 0;
 		this.huerotate = 0;
 		this.blur = 0;
+		this.canvas = document.getElementById("canvas");
+		this.context = this.canvas.getContext ? this.canvas.getContext('2d') : null;
 		this.image = document.getElementById("image");
 		this.input_div = document.getElementById("input_div");
 
@@ -24,6 +26,8 @@ class Editor {
 		this.change_saturation();
 		this.change_huerotate();
 		this.change_blur();
+		this.canvas.width = this.image.width;
+		this.canvas.height = this.image.height;
 	}
 
 	display_form() {
@@ -50,13 +54,17 @@ class Editor {
 		this.blur = document.getElementById("blur").value;
 		this.change();
 	}
-
+	
 	change() {
 		this.image.style.filter = 
 		"contrast(" + this.contrast + "%)" +
 		"saturate(" + this.saturation + "%)" +
 		"hue-rotate(" + this.huerotate + "deg)" +
 		"blur(" + this.blur + "px)";
+
+		this.context.filter = this.image.style.filter;
+
+		this.context.drawImage(this.image, 0, 0, this.image.width, this.image.height);
 	}
 }
 
@@ -78,26 +86,3 @@ document.getElementById('input').onchange = function (evt) {
         fr.readAsDataURL(files[0]);
     }
 }
-
-/*let before_style;
-
-function contrast() {
-	before_style = document.getElementById("image").style.filter;
-	console.log(before_style);
-	let contrast_value = document.getElementById("contrast").value;
-	document.getElementById("image").style.filter += "contrast(" + contrast_value + "%)";
-}
-
-function saturation() {
-	before_style = document.getElementById("image").style.filter;
-	console.log(before_style);
-	let saturation_value = document.getElementById("saturation").value;
-	document.getElementById("image").style.filter += "saturate(" + saturation_value + "%)";	
-}
-
-function hue_rotate() {
-	before_style = document.getElementById("image").style.filter;
-	console.log(before_style);
-	let hue_rotate_value = document.getElementById("hue-rotate").value;
-	document.getElementById("image").style.filter += "hue-rotate(" + hue_rotate_value + "deg)";
-}*/

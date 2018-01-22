@@ -12,4 +12,9 @@ li {
 }
 img {
 	height: 300px;
+	display: none;
+}
+
+canvas {
+	height: 300px;
 }
